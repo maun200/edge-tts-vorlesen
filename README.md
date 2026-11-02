@@ -28,7 +28,7 @@ Edge-TTS no longer returns per-word timestamps from the server (only sentence-bo
 
 ## Requirements
 
-- Ubuntu 24.04 or 26.04 (or similar), X11 session (GNOME tested; the system-wide hotkey uses `xclip`/GNOME custom keybindings and PRIMARY-selection semantics, so it needs X11 — Wayland is untested and the selection-grab likely won't work under it)
+- Ubuntu 24.04 or 26.04 (or similar), GNOME on X11 or Wayland (tested: GNOME 50 on Wayland, Ubuntu 26.04). The system-wide hotkey uses `xclip` and GNOME custom keybindings; under Wayland the player window runs via XWayland (`GDK_BACKEND=x11`) so that GNOME honors "always on top"
 - Internet connection (Edge TTS synthesizes server-side)
 - Packages installed automatically by `install.sh`: `mpv`, `xclip`, `python3-gi`, `gir1.2-gtk-3.0`, `libreoffice-script-provider-python`, `speech-dispatcher`, `speech-dispatcher-audio-plugins`, `pipx`
 - Python package `edge-tts` (installed via `pipx`)
@@ -84,7 +84,7 @@ Edit `~/.config/vorlesen-miniplayer.json`:
 
 - Word-level timing is estimated, not exact (see "How it works" above) — it's usually good enough to follow along, but won't perfectly match consonant-heavy or very short words.
 - Relies on Microsoft's Edge Read Aloud backend through the unofficial, reverse-engineered [`edge-tts`](https://github.com/rany2/edge-tts) client. It's not an official API and could change or stop working without notice; this project isn't affiliated with Microsoft.
-- X11-only; not tested under Wayland.
+- Under Wayland, the system-wide player needs XWayland (enabled by default in GNOME).
 - UI strings in both players are German (the author's language) — pull requests adding i18n/English strings are welcome.
 
 ## Troubleshooting

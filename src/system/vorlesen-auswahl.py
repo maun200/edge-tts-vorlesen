@@ -25,6 +25,11 @@ import tempfile
 import threading
 import time
 
+# Unter Wayland ignoriert GNOME set_keep_above(); über XWayland wird
+# "immer im Vordergrund" dagegen respektiert. Muss vor dem Gdk-Import stehen.
+if os.environ.get("WAYLAND_DISPLAY"):
+    os.environ.setdefault("GDK_BACKEND", "x11")
+
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, GLib, Gdk, Pango  # noqa: E402

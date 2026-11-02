@@ -17,18 +17,12 @@ sudo apt-get install -y \
     python3-gi gir1.2-gtk-3.0 \
     libreoffice-script-provider-python \
     speech-dispatcher speech-dispatcher-audio-plugins \
-    python3-pip
+    pipx
 
-echo "==> Installiere edge-tts (Python, --user)"
-if ! python3 -m pip install --user --upgrade edge-tts 2>/tmp/edge-tts-pip.log; then
-    if grep -q "externally-managed-environment" /tmp/edge-tts-pip.log; then
-        python3 -m pip install --user --break-system-packages --upgrade edge-tts
-    else
-        cat /tmp/edge-tts-pip.log >&2
-        exit 1
-    fi
-fi
-rm -f /tmp/edge-tts-pip.log
+echo "==> Installiere edge-tts (pipx)"
+# --force: repariert auch ein venv, das nach einem Python-Upgrade
+# (z. B. Ubuntu-Release-Wechsel) noch auf die alte Python-Version zeigt.
+pipx install --force --python python3 edge-tts
 
 echo "==> Kopiere Programmdateien nach $BIN_DIR"
 mkdir -p "$BIN_DIR"

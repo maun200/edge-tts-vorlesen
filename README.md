@@ -28,10 +28,10 @@ Edge-TTS no longer returns per-word timestamps from the server (only sentence-bo
 
 ## Requirements
 
-- Ubuntu 24.04 (or similar), X11 session (GNOME tested; the system-wide hotkey uses `xclip`/GNOME custom keybindings and PRIMARY-selection semantics, so it needs X11 — Wayland is untested and the selection-grab likely won't work under it)
+- Ubuntu 24.04 or 26.04 (or similar), X11 session (GNOME tested; the system-wide hotkey uses `xclip`/GNOME custom keybindings and PRIMARY-selection semantics, so it needs X11 — Wayland is untested and the selection-grab likely won't work under it)
 - Internet connection (Edge TTS synthesizes server-side)
-- Packages installed automatically by `install.sh`: `mpv`, `xclip`, `python3-gi`, `gir1.2-gtk-3.0`, `libreoffice-script-provider-python`, `speech-dispatcher`, `speech-dispatcher-audio-plugins`
-- Python package `edge-tts` (installed via `pip install --user`)
+- Packages installed automatically by `install.sh`: `mpv`, `xclip`, `python3-gi`, `gir1.2-gtk-3.0`, `libreoffice-script-provider-python`, `speech-dispatcher`, `speech-dispatcher-audio-plugins`, `pipx`
+- Python package `edge-tts` (installed via `pipx`)
 
 ## Installation
 
@@ -86,6 +86,22 @@ Edit `~/.config/vorlesen-miniplayer.json`:
 - Relies on Microsoft's Edge Read Aloud backend through the unofficial, reverse-engineered [`edge-tts`](https://github.com/rany2/edge-tts) client. It's not an official API and could change or stop working without notice; this project isn't affiliated with Microsoft.
 - X11-only; not tested under Wayland.
 - UI strings in both players are German (the author's language) — pull requests adding i18n/English strings are welcome.
+
+## Troubleshooting
+
+**The player window opens and closes again immediately.** Synthesis or playback failed silently. This typically happens after an Ubuntu release upgrade (e.g. 24.04 → 26.04): the Python version changes, which breaks the `edge-tts` virtualenv, and `mpv` may get removed. Check:
+
+```bash
+edge-tts --text "Test" --write-media /tmp/test.mp3   # must create the file
+which mpv                                             # must print a path
+```
+
+Fix by re-running `./install.sh`, or manually:
+
+```bash
+pipx reinstall --python python3 edge-tts
+sudo apt install mpv
+```
 
 ## License
 
